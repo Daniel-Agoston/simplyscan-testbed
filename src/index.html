@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Acme Vibe Store</title>
+<!-- PLANT speed_blocking_loading: render-blocking scripts in <head>, no defer/async -->
+<!-- PLANT arch_vuln_libs: jQuery 1.12.4 (CVE-2019-11358, CVE-2020-11022) and lodash 4.17.4 (CVE-2019-10744), no SRI -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+<!-- PLANT gdpr: analytics loaded before any consent, no cookie banner, no privacy policy link -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TESTBED000"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TESTBED000');</script>
+<script src="assets/app.js"></script>
+<style>body{font-family:sans-serif;margin:0} .faint{color:#c8c8c8;background:#fff} .hero{padding:40px}</style>
+</head>
+<body>
+<!-- PLANT seo: no lang attribute, no meta description, no canonical, two h1s, skipped heading levels -->
+<h1>Acme Vibe Store</h1>
+<h1>Built with AI in a weekend</h1>
+<h4>Featured</h4>
+<!-- PLANT a11y: images without alt, low-contrast text, inputs without labels, a link with no text -->
+<!-- PLANT speed_image_preload: huge unsized hero image, no lazy loading -->
+<img src="https://picsum.photos/3000/2000">
+<p class="faint">Low contrast text that fails WCAG AA.</p>
+<a href="/cart"><img src="https://picsum.photos/40/40"></a>
+<!-- PLANT security_csrf: state-changing POST form, no CSRF token; PLANT security_hardcoded_urls + mixed content: form posts to plain http -->
+<form method="POST" action="http://api.testbed-fake.internal/transfer">
+  <input name="amount" placeholder="Amount">
+  <input name="to" placeholder="Send to">
+  <input type="password" name="pin">
+  <button>Send money</button>
+</form>
+<!-- PLANT mixed content: http image on an https page -->
+<img src="http://picsum.photos/200/100" alt="banner">
+<div id="out"></div>
+<a href="/does-not-exist">Broken link</a>
+</body>
+</html>

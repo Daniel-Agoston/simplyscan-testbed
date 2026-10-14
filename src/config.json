@@ -1,0 +1,6 @@
+{
+ "_comment": "PLANT exposed config (FAKE values)",
+ "stripeSecretKey": "{{FAKE_STRIPE_LIVE}}",
+ "adminPassword": "{{FAKE_PASSWORD}}",
+ "debug": true
+}

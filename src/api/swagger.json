@@ -1,0 +1,19 @@
+{
+ "openapi": "3.0.0",
+ "info": {
+  "title": "Acme internal API (PLANT exposed swagger)",
+  "version": "1"
+ },
+ "paths": {
+  "/admin/users": {
+   "get": {
+    "summary": "List every user (no auth)"
+   }
+  },
+  "/transfer": {
+   "post": {
+    "summary": "Move money"
+   }
+  }
+ }
+}

@@ -1,0 +1,4 @@
+# PLANT info leak: robots.txt advertises hidden paths
+User-agent: *
+Disallow: /admin
+Disallow: /backup.zip

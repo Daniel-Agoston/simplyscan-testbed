@@ -1,0 +1,5 @@
+<?php
+// PLANT exposed backup config (FAKE)
+define('DB_NAME','production');
+define('DB_USER','admin');
+define('DB_PASSWORD','{{FAKE_PASSWORD}}');
