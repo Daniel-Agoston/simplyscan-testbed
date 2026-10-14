@@ -8,15 +8,15 @@ All data is FAKE. Created 2026-10-14. Planted with SQL through Lovable query_dat
 
 | # | Plant | How to reproduce (public key only) | Expected |
 |---|---|---|---|
-| B1 | `notes`: RLS OFF; anon can SELECT/INSERT/UPDATE/DELETE | GET /rest/v1/notes; POST is 201 | critical (supabase_missing_rls) |
-| B2 | `profiles` (fake names/emails/phones): RLS ON, but the policy "anyone can do anything" is `USING (true) WITH CHECK (true)` for anon | GET /rest/v1/profiles | critical (supabase_weak_rls) |
+| B1 | `notes`: RLS OFF; anon can SELECT (writes revoked 2026-10-14 so nobody can empty or flood the fixture) | GET /rest/v1/notes → rows; POST → 401 | critical (supabase_missing_rls) |
+| B2 | `profiles` (fake names/emails/phones): RLS ON, but the SELECT policy "anyone can read" is `USING (true)` for anon (write policy removed 2026-10-14) | GET /rest/v1/profiles | critical (supabase_weak_rls) |
 | B3 | `api_keys` (FAKE secrets): readable by anon | GET /rest/v1/api_keys | critical (supabase_public_tables) |
 | B4 | `orders`: RLS ON, NO policies = SECURE negative control | GET returns [] | must NOT be reported |
 | B5 | Storage bucket `private-docs` is public: `contracts/2026-acme-contract.txt` (fake) | GET /storage/v1/object/public/private-docs/contracts/2026-acme-contract.txt | high (public bucket) |
 | B6 | RPC `get_all_users()` SECURITY DEFINER, EXECUTE granted to anon, returns every profile | POST /rest/v1/rpc/get_all_users | high |
 | B7 | /api/public/public-stats: no auth, `Access-Control-Allow-Origin: *` | GET with any Origin | medium (CORS / unprotected endpoint) |
 
-Abuse limits (kept on purpose): anon CANNOT upload files (the upload policy was dropped); notes/profiles have length CHECKs so anon writes stay tiny.
+Abuse limits: anon has SELECT only on every fixture table (INSERT/UPDATE/DELETE/TRUNCATE revoked 2026-10-14), cannot upload files (upload policy dropped), and length CHECKs remain.
 
 ## Scores
 - 2026-10-14 19:51Z Pro scan dac67238 (scan-url before #124): 0 Supabase findings, score 95. Missed B1–B7.
