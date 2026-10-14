@@ -1,22 +1,23 @@
 {
- "_note": "FAKE test credentials, reversed + base64 so they never sit in the repo in a key-like shape. build.mjs restores them into the published site only.",
- "fakes": {
-  "stripe_live": "NXRaQkk3all3SHV3T3ZHTEVaalhSbElVX2V2aWxfa3M=",
-  "aws_id": "TlZFTTFRVVo2VTJEUFIxMkFJS0E=",
-  "aws_secret": "dmJCYzlvYUhhVG0vVmxJYWFMYkFoclZoVUlzcWxXM3BZSlZnYm1Xbw==",
-  "openai": "RWEwU1pRRE5FRUhMWkRiYmpuTVlZakdxM0l4blRncG5MTFU4Z2puYXN4MG9TdUpuLWpvcnAta3M=",
-  "anthropic": "alczRV9KUFR0Z1hBdzZDbllTTjNXRFlfX0stMTJ0VlZfWWpLQ0hNNi0zMGlwYS10bmEta3M=",
-  "github": "bUpMTzdlbHhEOHBzZ1QyQ3VSb1V0MzV0QTNrallhZEd5aEp2X3BoZw==",
-  "gitlab": "ZzE2WlZQTXBEbVFiMVlOWUxIaHgtdGFwbGc=",
-  "slack": "Q2hjekprV1dRZ1ZkdEJnVUk4dUJrY2hxLTkzNjI1Mjc5ODUtYnhveA==",
-  "sendgrid": "QlF2UXZUMDFsbk4wYUw5RGRSZDdGdjd6RTd3d1JOb0xlNmdMR2RIb2tsci41dG9DcU5nek1HU09mbFJPV3hBWkcxLkdT",
-  "resend": "NExoeUwzUlJpbWt4SHBqc0NEUXliYzhwXzdrZkhYQVI1X2Vy",
-  "google_oauth": "ZjZGTFo1OGt5VlZsVnk2ZGU2RHJsbGxwSTBobC1YUFNDT0c=",
-  "google_api": "eDZzeE5xMFlja0pPcS1hbktJUWZYZ0lOZVQ2X3ZRR0o0VmhheklB",
-  "service_role": "b0E0eXNOZ2FPSGxPNFkxRjVVempoQ1RZenFSb2pQNWxWVzNjaVdMM1BjZS4wSE13QURNd0FUTjNBak02SUNjNFZtSXNBRE13QURNd0FqTjNFak9pUVhZcEpDTGlVR2J2SjNYbE5XYTJKWFp6SmlPaVVHYnZKbklzSUNabEpHZHpWR2QwTldacTltY3dWMmFoWm1JNklpWmxKbklzSVNaekZtWWhCWGR6SmlPaU0zY3BKeWUuOUpDVlhwa0k2SUNjNVJuSXNJaU4xSXpVSUppT2ljR2JoSnll",
-  "anon": "RkRjMkRtMDZpYW9JTkllN3plZHBJMmNPYUhxOXZ5OHJwMlltMXpCQXdVWC45QkRNd0FETXdVek53SWpPaUFIZWxKQ0x3QURNd0FETXdZek54b2pJMEZXYWl3aUl1OW1iaEppT2lVR2J2Sm5Jc0lDWmxKR2R6VkdkME5XWnE5bWN3VjJhaFptSTZJaVpsSm5Jc0lTWnpGbVloQlhkekppT2lNM2NwSnllLjlKQ1ZYcGtJNklDYzVSbklzSWlOMUl6VUlKaU9pY0diaEp5ZQ==",
-  "db": "bm9pdGN1ZG9ycC8yMzQ1OmxhbnJldG5pLmVrYWYtZGVidHNldC5iZEBUSFNROU5IMFh2dDJXMkE3Om5pbWRhLy86c2VyZ3Rzb3A=",
-  "password": "WWgyVXFJeXZYVCFuMW1kQQ==",
-  "entropy": "RDhtbFB5MEdZQm5xSENpN2dQVHc1MDVzV2JtTG5aRUZYUGJJVUhMVw=="
- }
+  "_note": "FAKE test credentials, reversed + base64 so they never sit in the repo in a key-like shape. build.mjs restores them into the published site only.",
+  "fakes": {
+    "stripe_live": "NXRaQkk3all3SHV3T3ZHTEVaalhSbElVX2V2aWxfa3M=",
+    "aws_id": "TlZFTTFRVVo2VTJEUFIxMkFJS0E=",
+    "aws_secret": "dmJCYzlvYUhhVG0vVmxJYWFMYkFoclZoVUlzcWxXM3BZSlZnYm1Xbw==",
+    "openai": "RWEwU1pRRE5FRUhMWkRiYmpuTVlZakdxM0l4blRncG5MTFU4Z2puYXN4MG9TdUpuLWpvcnAta3M=",
+    "anthropic": "alczRV9KUFR0Z1hBdzZDbllTTjNXRFlfX0stMTJ0VlZfWWpLQ0hNNi0zMGlwYS10bmEta3M=",
+    "github": "bUpMTzdlbHhEOHBzZ1QyQ3VSb1V0MzV0QTNrallhZEd5aEp2X3BoZw==",
+    "gitlab": "ZzE2WlZQTXBEbVFiMVlOWUxIaHgtdGFwbGc=",
+    "slack": "Q2hjekprV1dRZ1ZkdEJnVUk4dUJrY2hxLTkzNjI1Mjc5ODUtYnhveA==",
+    "sendgrid": "QlF2UXZUMDFsbk4wYUw5RGRSZDdGdjd6RTd3d1JOb0xlNmdMR2RIb2tsci41dG9DcU5nek1HU09mbFJPV3hBWkcxLkdT",
+    "resend": "NExoeUwzUlJpbWt4SHBqc0NEUXliYzhwXzdrZkhYQVI1X2Vy",
+    "google_oauth": "ZjZGTFo1OGt5VlZsVnk2ZGU2RHJsbGxwSTBobC1YUFNDT0c=",
+    "google_api": "eDZzeE5xMFlja0pPcS1hbktJUWZYZ0lOZVQ2X3ZRR0o0VmhheklB",
+    "service_role": "b0E0eXNOZ2FPSGxPNFkxRjVVempoQ1RZenFSb2pQNWxWVzNjaVdMM1BjZS4wSE13QURNd0FUTjNBak02SUNjNFZtSXNBRE13QURNd0FqTjNFak9pUVhZcEpDTGlVR2J2SjNYbE5XYTJKWFp6SmlPaVVHYnZKbklzSUNabEpHZHpWR2QwTldacTltY3dWMmFoWm1JNklpWmxKbklzSVNaekZtWWhCWGR6SmlPaU0zY3BKeWUuOUpDVlhwa0k2SUNjNVJuSXNJaU4xSXpVSUppT2ljR2JoSnll",
+    "anon": "RkRjMkRtMDZpYW9JTkllN3plZHBJMmNPYUhxOXZ5OHJwMlltMXpCQXdVWC45QkRNd0FETXdVek53SWpPaUFIZWxKQ0x3QURNd0FETXdZek54b2pJMEZXYWl3aUl1OW1iaEppT2lVR2J2Sm5Jc0lDWmxKR2R6VkdkME5XWnE5bWN3VjJhaFptSTZJaVpsSm5Jc0lTWnpGbVloQlhkekppT2lNM2NwSnllLjlKQ1ZYcGtJNklDYzVSbklzSWlOMUl6VUlKaU9pY0diaEp5ZQ==",
+    "db": "bm9pdGN1ZG9ycC8yMzQ1OmxhbnJldG5pLmVrYWYtZGVidHNldC5iZEBUSFNROU5IMFh2dDJXMkE3Om5pbWRhLy86c2VyZ3Rzb3A=",
+    "password": "WWgyVXFJeXZYVCFuMW1kQQ==",
+    "entropy": "RDhtbFB5MEdZQm5xSENpN2dQVHc1MDVzV2JtTG5aRUZYUGJJVUhMVw==",
+    "firebase_web_key": "MGZtWTAyeWtMNWt0YncyTGswT0R3SmlkRkxEMTdiNlhEeVNheklB"
+  }
 }

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Acme Directory (multi-backend test fixture)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<h1>Acme Directory (test fixture)</h1>
+<p>Deliberately misconfigured Firebase + Appwrite targets for SimplyScan. All data is fake.</p>
+<ul id="list"></ul>
+<script type="module">
+  // Firebase (Realtime Database + Firestore)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "{{FAKE_FIREBASE_WEB_KEY}}",
+    authDomain: "simplyscan-testbed.firebaseapp.com",
+    databaseURL: "https://simplyscan-testbed-default-rtdb.firebaseio.com",
+    projectId: "simplyscan-testbed",
+    storageBucket: "simplyscan-testbed.firebasestorage.app",
+    messagingSenderId: "51463173293",
+    appId: "1:51463173293:web:c48193f3efeba085aa4224",
+  };
+  const app = initializeApp(firebaseConfig);
+  const list = document.getElementById("list");
+  const show = (src, name) => { const li = document.createElement("li"); li.textContent = `${src}: ${name}`; list.appendChild(li); };
+  get(ref(getDatabase(app), "profiles")).then((s) => Object.values(s.val() || {}).forEach((p) => show("rtdb", p.full_name))).catch(() => {});
+  getDocs(collection(getFirestore(app), "profiles")).then((q) => q.forEach((d) => show("firestore", d.data().full_name))).catch(() => {});
+  getDocs(collection(getFirestore(app), "orders")).catch(() => {}); // locked control
+
+  // Appwrite (TablesDB)
+  import { Client, TablesDB } from "https://unpkg.com/appwrite@28.0.0/dist/esm/sdk.js";
+  const client = new Client().setEndpoint("https://fra.cloud.appwrite.io/v1").setProject("6acfeb8400096039ece0");
+  const tables = new TablesDB(client);
+  tables.listRows({ databaseId: "6acff3a7002c2817568e", tableId: "6acff87a000d1ed3b38a" }) // profiles
+    .then((r) => r.rows.forEach((p) => show("appwrite", p.full_name))).catch(() => {});
+  tables.listRows({ databaseId: "6acff3a7002c2817568e", tableId: "6acffa0b000b6edf2d57" }).catch(() => {}); // orders (locked)
+</script>
+</body></html>
