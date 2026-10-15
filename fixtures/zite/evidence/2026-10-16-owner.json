@@ -1,0 +1,56 @@
+{
+  "suite": "native signed-in ownership controls",
+  "at": "2026-10-15T23:22:53.357Z",
+  "identity": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+  "fixtureIds": [
+    "05d1aaf291d4403",
+    "e3249de2e7d4475"
+  ],
+  "passed": 10,
+  "total": 10,
+  "checks": [
+    {
+      "name": "native identity",
+      "passed": true
+    },
+    {
+      "name": "own create",
+      "passed": true
+    },
+    {
+      "name": "own read",
+      "passed": true
+    },
+    {
+      "name": "own update persisted",
+      "passed": true
+    },
+    {
+      "name": "owner reassignment rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Ownership is immutable\"}"
+    },
+    {
+      "name": "duplicate create rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Fixture exists\"}"
+    },
+    {
+      "name": "foreign owner create rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Owner mismatch\"}"
+    },
+    {
+      "name": "denied writes left own row unchanged",
+      "passed": true
+    },
+    {
+      "name": "own delete",
+      "passed": true
+    },
+    {
+      "name": "cleanup read is empty",
+      "passed": true
+    }
+  ]
+}

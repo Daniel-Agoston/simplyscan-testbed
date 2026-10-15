@@ -1,0 +1,8 @@
+{
+  "stage": "Cross-user fixture ready. Sign in with a different test account, then run cross-user checks.",
+  "fixture": {
+    "id": "c2eed10dcf654df",
+    "owner": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+    "auditMarker": "simplyscan_c2eed10dcf654df5936803fcfe1546f8"
+  }
+}
