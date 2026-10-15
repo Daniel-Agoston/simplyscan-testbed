@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Acme Directory (persisted GraphQL test fixture)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<h1>Acme Directory: persisted queries only (test fixture)</h1>
+<p>Sends ONLY persisted-query hashes (G3 public list, G4 private registry). No query text in this page. All data is fake.</p>
+<script type="module">
+  const GRAPHQL = { url: "https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1", key: "sb_publishable_1fbBZwEo9S3rhC3WuKg_8Q_tVyKHSVn" };
+  const send = (operationName, sha256Hash) => fetch(GRAPHQL.url, { method: "POST", headers: { "Content-Type": "application/json", apikey: GRAPHQL.key },
+    body: JSON.stringify({ operationName, extensions: { persistedQuery: { version: 1, sha256Hash } } }) }).catch(() => null);
+  send("PublicProfiles", "a406eb5585b06e4dbe62be129183a1e1a05423165926e27b4abec4ccf9334811");
+  send("PrivateContacts", "d9454c57275a7ab1e71d330ac51b5e4f618d3af5b9a6f3f3140df73637a054db");
+</script>
+</body></html>
