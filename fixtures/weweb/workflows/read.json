@@ -1,0 +1,97 @@
+{
+  "projectId": "7f3938b0-c436-468b-ae2b-cdf05cf231fc",
+  "name": "SimplyScan audit read",
+  "description": "Dedicated synthetic ownership audit; never a production-data endpoint",
+  "type": "api",
+  "meta": {
+    "path": "/api/simplyscan-audit/records/{id}",
+    "method": "GET",
+    "security": {
+      "accessRule": "authenticated"
+    }
+  },
+  "parameters": [
+    {
+      "name": "id",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "firstAction": "guard",
+  "actions": {
+    "guard": {
+      "id": "guard",
+      "type": "if",
+      "name": "guard",
+      "__wwdescription": "guard",
+      "next": null,
+      "value": {
+        "__wwtype": "js",
+        "code": "// Only dedicated test users and disposable fixture identifiers are accepted.\nconst userId = context.auth?.user?.id;\nconst admin = userId === \"01a141b3-bc98-73f0-b4dc-4c0542015d69\";\nconst permittedUser = [\"01a141b3-bc98-73f0-b4dc-4c0542015d69\",\"01a141b3-a766-7df3-b8b8-69e4c421dfee\",\"01a141b3-b373-7e64-a44f-57331032b39b\"].includes(userId);\nconst validId = typeof context.parameters.id === 'string' && /^[a-f0-9]{15}$/.test(context.parameters.id);\nreturn !!(context.auth?.isAuthenticated && permittedUser && validId);"
+      },
+      "branches": [
+        {
+          "value": true,
+          "id": "database"
+        },
+        {
+          "value": false,
+          "id": "denied"
+        }
+      ]
+    },
+    "denied": {
+      "id": "denied",
+      "type": "return-response",
+      "name": "denied",
+      "__wwdescription": "denied",
+      "next": null,
+      "args": {
+        "status": 403,
+        "contentType": "application/json",
+        "body": {
+          "error": "Forbidden"
+        }
+      }
+    },
+    "database": {
+      "id": "database",
+      "type": "table-select",
+      "name": "database",
+      "__wwdescription": "database",
+      "next": "response",
+      "tableName": "simplyscan_audit_owned",
+      "columns": {
+        "fixtureId": true,
+        "owner": true,
+        "auditMarker": true
+      },
+      "formulaColumns": {},
+      "filters": {
+        "__wwtype": "js",
+        "code": "// Both the requested fixture and native authenticated owner constrain the query.\nconst conditions = [{field:'fixtureId',operator:'$eq',value:context.parameters.id}];\nif (context.auth.user.id !== \"01a141b3-bc98-73f0-b4dc-4c0542015d69\") conditions.push({field:'owner',operator:'$eq',value:context.auth.user.id});\n\nreturn {link:'$and',conditions};"
+      },
+      "limit": 1,
+      "offset": 0,
+      "count": false
+    },
+    "response": {
+      "id": "response",
+      "type": "return-response",
+      "name": "response",
+      "__wwdescription": "response",
+      "next": null,
+      "args": {
+        "status": {
+          "__wwtype": "js",
+          "code": "return 200;"
+        },
+        "contentType": "application/json",
+        "body": {
+          "__wwtype": "js",
+          "code": "const row = context.workflow.database.result.data[0]; return {record: row ? {id:row.fixtureId,owner:row.owner,auditMarker:row.auditMarker} : null};"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "projectId": "7f3938b0-c436-468b-ae2b-cdf05cf231fc",
+  "environment": "editor",
+  "table": "simplyscan_audit_owned",
+  "workflows": {
+    "identity": "ba9847fb-3a0a-4e7b-9881-236b0fa9eb98",
+    "read": "7f3c9622-f8aa-4432-bedd-bd43f02f0041",
+    "create": "2d69449b-5e59-4cde-8376-84ade0521e17",
+    "update": "7223f305-37c4-4b87-ae86-8964aa43be9a",
+    "delete": "171f160d-f238-46c7-aaf2-bf5e549618b5"
+  },
+  "verification": {
+    "date": "2026-10-15",
+    "localSafetyTests": 9,
+    "nativeDebugOwnerCreateReadDelete": "passed",
+    "nativeDebugOtherRead": "hidden",
+    "independentRemainingRows": 0,
+    "realHttpAuthentication": "unverified: editor gateway returns 401 even for login and nonexistent routes",
+    "fullTwoUserHttpMatrix": "not-run",
+    "publishedStagingOrProduction": false
+  },
+  "limitations": [
+    "Debug runner injects auth context and bypasses endpoint access rules; these checks are not real-session permission proof.",
+    "Fixture writes are confined to bounded IDs and synthetic markers in the dedicated audit table.",
+    "Only the dedicated audit administrator can inspect both owners' test records; no global role or existing user permissions were changed.",
+    "Credentials are stored outside the repository in a private local directory, never in this manifest."
+  ]
+}
