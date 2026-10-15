@@ -42,3 +42,20 @@ Dedicated free projects, fake data only. The page's code names every backend, so
 | A2 | Appwrite `orders` (table 6acffa0b000b6edf2d57), no permissions = CONTROL | same → 401 user_unauthorized | must NOT be reported |
 Notes: Appwrite refuses strangers a table list (401 missing scopes) → table ids must come from the page code. The Firebase web key is public by design (every Firebase web app ships it); it is stored scrambled in fakes.scrambled.json only so GitHub push protection doesn't block the repo.
 PocketBase: see ~/simplyscan-testbed-pb/ANSWER-KEY.md (runs on Daniel's Mac, URL changes per start).
+
+## Full rescan 2026-10-15 (live scanner 104209b: Codex's backend audit + Firebase call-style fix)
+| Target | Pro scan | Result |
+|---|---|---|
+| backends/ page (Firebase + Appwrite) | e7545f1f | F1 RTDB profiles HIGH, F3 Firestore profiles HIGH, A1 Appwrite profiles HIGH; F2/F4/A2 controls silent; score 69. (Before the fix, F1 and F3 were MISSED.) Plus an AI-only, unscored "Hardcoded Firebase API Key" medium — the key is public by design. |
+| PocketBase (tunnel URL of the day) | f2a0acd7 | PB1 profiles HIGH; PB2 orders silent; score 79 |
+| Supabase backend | 047d3600 | B1–B7 all found, B4/B9 silent, score 37 (B8 GraphQL = same data as B2; the app's code names no GraphQL endpoint, so no separate finding) |
+| Static site | 173f059f | 94 findings, 9 code plants, 25 secret/exposed-file findings, source map, swagger, contrast, broken links, unsized image; 0 duplicate titles — no regression |
+
+## GraphQL on the backends/ page (added 2026-10-15; endpoint https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1, sb_publishable key)
+| # | Plant | How the scanner can know it | Expected |
+|---|---|---|---|
+| G1 | `query Profiles { profilesCollection … full_name email phone }` in the page code | static source binding (url + query object) | HIGH: anonymous read of personal fields |
+| G2 | `query Orders { ordersCollection … }` (RLS on, no policy) | same | CONTROL: returns no rows → must NOT be reported |
+| G3 | persisted query sent as hash a406eb55… only (PublicProfiles: full_name email) | public discovery: ./persisted-query-manifest.json beside the page (Apollo manifest) | HIGH after recovery |
+| G4 | persisted query sent as hash d9454c57… only (PrivateContacts: full_name phone) | ONLY in the private repo Daniel-Agoston/simplyscan-private-registry (persisted-documents.json) → needs owner GitHub import with a read-only token | before import: "unresolved hash" (not safe, not a leak); after import: HIGH |
+A hash-only request to pg_graphql answers `argument 0 must not be null`: the server has no persisted-query store, so the scanner must recover the document and replay the full (read-only) query.

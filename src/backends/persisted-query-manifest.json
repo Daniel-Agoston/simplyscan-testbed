@@ -1,0 +1,13 @@
+{
+  "format": "apollo-persisted-query-manifest",
+  "version": 1,
+  "endpoint": "https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1",
+  "operations": [
+    {
+      "id": "a406eb5585b06e4dbe62be129183a1e1a05423165926e27b4abec4ccf9334811",
+      "name": "PublicProfiles",
+      "type": "query",
+      "body": "query PublicProfiles { profilesCollection(first: 3) { edges { node { full_name email } } } }"
+    }
+  ]
+}

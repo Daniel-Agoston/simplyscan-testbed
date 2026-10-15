@@ -26,6 +26,19 @@
   getDocs(collection(getFirestore(app), "profiles")).then((q) => q.forEach((d) => show("firestore", d.data().full_name))).catch(() => {});
   getDocs(collection(getFirestore(app), "orders")).catch(() => {}); // locked control
 
+  // GraphQL (Supabase pg_graphql on the test backend; fake data). G1 = plain query
+  // in the code, G2 = locked control, G3 = persisted (hash-only) query whose document
+  // is listed publicly in ./persisted-query-manifest.json, G4 = persisted query whose
+  // document exists ONLY in a private registry (owner import test).
+  const GRAPHQL = { url: "https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1", key: "sb_publishable_1fbBZwEo9S3rhC3WuKg_8Q_tVyKHSVn" };
+  const gql = (body) => fetch(GRAPHQL.url, { method: "POST", headers: { "Content-Type": "application/json", apikey: GRAPHQL.key }, body: JSON.stringify(body) }).then((r) => r.json()).catch(() => null);
+  const PROFILES = { url: "https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1", query: "query Profiles { profilesCollection(first: 5) { edges { node { full_name email phone } } } }" };
+  const ORDERS = { url: "https://whicvhscrqqxnprjxxan.supabase.co/graphql/v1", query: "query Orders { ordersCollection(first: 5) { edges { node { customer_email total_cents } } } }" };
+  gql({ query: PROFILES.query }).then((d) => (d?.data?.profilesCollection?.edges ?? []).forEach((e) => show("graphql", e.node.full_name)));
+  gql({ query: ORDERS.query });
+  gql({ operationName: "PublicProfiles", extensions: { persistedQuery: { version: 1, sha256Hash: "a406eb5585b06e4dbe62be129183a1e1a05423165926e27b4abec4ccf9334811" } } });
+  gql({ operationName: "PrivateContacts", extensions: { persistedQuery: { version: 1, sha256Hash: "d9454c57275a7ab1e71d330ac51b5e4f618d3af5b9a6f3f3140df73637a054db" } } });
+
   // Appwrite (TablesDB)
   import { Client, TablesDB } from "https://unpkg.com/appwrite@28.0.0/dist/esm/sdk.js";
   const client = new Client().setEndpoint("https://fra.cloud.appwrite.io/v1").setProject("6acfeb8400096039ece0");
