@@ -1,0 +1,29 @@
+{
+  "origin": "https://laminated-raster-production.weweb.io",
+  "sessions": [
+    {
+      "role": "admin",
+      "status": 200,
+      "hasToken": true,
+      "expectedIdentity": true,
+      "identityStatus": 200,
+      "identityVerified": true
+    },
+    {
+      "role": "owner",
+      "status": 200,
+      "hasToken": true,
+      "expectedIdentity": true,
+      "identityStatus": 200,
+      "identityVerified": true
+    },
+    {
+      "role": "other",
+      "status": 200,
+      "hasToken": true,
+      "expectedIdentity": true,
+      "identityStatus": 200,
+      "identityVerified": true
+    }
+  ]
+}

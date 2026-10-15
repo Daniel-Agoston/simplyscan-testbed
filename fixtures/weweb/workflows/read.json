@@ -4,8 +4,8 @@
   "description": "Dedicated synthetic ownership audit; never a production-data endpoint",
   "type": "api",
   "meta": {
-    "path": "/api/simplyscan-audit/records/{id}",
-    "method": "GET",
+    "path": "/simplyscan-audit/read",
+    "method": "POST",
     "security": {
       "accessRule": "authenticated"
     }

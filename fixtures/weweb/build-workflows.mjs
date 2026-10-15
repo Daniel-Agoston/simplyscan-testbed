@@ -46,7 +46,8 @@ return {link:'$and',conditions};`);
   const rowExpression = operation === 'read' ? 'context.workflow.database.result.data[0]' : 'context.workflow.database.result[0]';
   return {
     projectId,name:`SimplyScan audit ${operation}`,description:'Dedicated synthetic ownership audit; never a production-data endpoint',
-    type:'api',meta:{path:'/api/simplyscan-audit/records/{id}',method:methods[operation],security:{accessRule:'authenticated'}},
+    // WeWeb prefixes paths with /api and passes named body parameters directly.
+    type:'api',meta:{path:`/simplyscan-audit/${operation}`,method:'POST',security:{accessRule:'authenticated'}},
     parameters:[{name:'id',type:'string',required:true},...(writesData?[{name:'data',type:'object',required:true}]:[])],
     firstAction:'guard',actions:{
       guard:action('guard','if',null,{value:binding(guard),branches:[{value:true,id:'database'},{value:false,id:'denied'}]}),

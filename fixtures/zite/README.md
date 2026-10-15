@@ -33,6 +33,13 @@ does **not** replay arbitrary Zite POST workflows or prove row isolation.
 
 ## Not completed
 
+Browser follow-up on 2026-10-16 (London time): connected Chrome control worked.
+The live page's public-canary button returned exactly the expected synthetic
+canary, and native hosted sign-in opened successfully. The external-users UI
+was empty. Two dedicated test email accounts were requested; none were supplied
+during this run, so authenticated cross-user tests remain pending. No sign-ups,
+invitations, password changes, or paid upgrades were performed.
+
 There are zero native Zite test users. Two genuine signed-in users are needed to
 verify working owner access, reverse isolation, and ownership-transfer denial.
 The synthetic row's owner label is NOT a login. Native sign-in uses the hosted

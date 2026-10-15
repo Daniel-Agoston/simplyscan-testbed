@@ -1,6 +1,6 @@
 {
   "projectId": "7f3938b0-c436-468b-ae2b-cdf05cf231fc",
-  "environment": "editor",
+  "environment": "production",
   "table": "simplyscan_audit_owned",
   "workflows": {
     "identity": "ba9847fb-3a0a-4e7b-9881-236b0fa9eb98",
@@ -10,19 +10,29 @@
     "delete": "171f160d-f238-46c7-aaf2-bf5e549618b5"
   },
   "verification": {
-    "date": "2026-10-15",
+    "date": "2026-10-16",
     "localSafetyTests": 9,
     "nativeDebugOwnerCreateReadDelete": "passed",
     "nativeDebugOtherRead": "hidden",
     "independentRemainingRows": 0,
-    "realHttpAuthentication": "unverified: editor gateway returns 401 even for login and nonexistent routes",
-    "fullTwoUserHttpMatrix": "not-run",
-    "publishedStagingOrProduction": false
+    "realHttpAuthentication": "passed: three real native cookie sessions and exact identity checks",
+    "fullTwoUserHttpMatrix": "18/18 passed: 12 CRUD checks plus 6 ownership/isolation checks",
+    "publishedStagingOrProduction": true,
+    "cleanup": "verified",
+    "evidence": "evidence/2026-10-16-report.json"
   },
   "limitations": [
     "Debug runner injects auth context and bypasses endpoint access rules; these checks are not real-session permission proof.",
     "Fixture writes are confined to bounded IDs and synthetic markers in the dedicated audit table.",
     "Only the dedicated audit administrator can inspect both owners' test records; no global role or existing user permissions were changed.",
-    "Credentials are stored outside the repository in a private local directory, never in this manifest."
-  ]
+    "Credentials are stored outside the repository in a private local directory, never in this manifest.",
+    "Production fixture matrix is complete; staging is unavailable in this project UI and was not tested. This is not a full policy certification or public-scanner permission pass."
+  ],
+  "url": "https://laminated-raster-production.weweb.io",
+  "transport": {
+    "authentication": "Native WeWeb cookies from fresh dedicated test-account sign-ins; no browser session extraction",
+    "identity": "GET /api/simplyscan-audit/whoami",
+    "operations": "POST /api/simplyscan-audit/{read,create,update,delete} with named id and data body parameters",
+    "storedWorkflowPaths": "Omit /api; WeWeb adds the prefix automatically."
+  }
 }
