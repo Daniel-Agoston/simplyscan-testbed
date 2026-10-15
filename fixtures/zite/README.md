@@ -3,8 +3,8 @@
 Live app: https://wrrcxw37xc.zite.so
 Editor: https://app.zite.com/workspace/c9765f75d3786c79/wrrcxw37xc/edit
 Workspace/database: `c9765f75d3786c79`; app: `wrrcxw37xc`.
-Published native commit: `762b3db2a3a75481bac14c29ed56a38f2963e636`;
-snapshot `5257565`. This directory mirrors the app's hand-authored files,
+Published native commit: `1608d2b989c9a8c333a2cdb515eb18747b839ab7`;
+snapshot `5258612`. This directory mirrors the app's hand-authored files,
 not Zite's generated SDK or any credentials.
 
 ## Plants and controls
@@ -45,17 +45,27 @@ Evidence is in `evidence/2026-10-16-*.json`. Type checking and endpoint bundling
 passed. Live execution logs confirmed snapshot `5257565`, including the three
 expected 403 failures; published and latest snapshots match.
 
-## Remaining cross-user work
+## Cross-user verification on 2026-10-16 (London)
 
-One genuine test user is now available. A second genuine signed-in user is needed
-to verify cross-user access denial and reverse isolation. One disposable owner
-record is prepared for that handoff; see `evidence/2026-10-16-cross-pending.json`.
-Use the same browser profile so the nonsecret fixture metadata remains available.
-Sign in as the second user and run both signed-in and cross-user checks; save each
-report before the next button replaces it. Return to the original owner and use
-"Verify original owner and clean up". Then repeat with the two roles reversed.
-Do not count the staged cross-user UI as executed evidence until both real users
-complete it. No invitations, password changes, or paid upgrades were performed.
+Two distinct hosted identities are now verified. The second user passed **10/10**
+own CRUD checks and **7/7** isolation checks against the first user's real record:
+foreign read returned null; update with either owner's ID, delete, overwrite,
+and create on behalf of the other owner were rejected with 403. Independent
+database inspection confirmed the first user's record was unchanged and no
+unexpected rows were created. See the `second-user`, `cross-b-to-a`, and
+`cross-b-to-a-integrity` evidence JSON files.
+
+## Remaining reverse-direction work
+
+The second user has prepared a reverse-direction fixture through its native
+session. Both fixture metadata sets are retained in the same browser profile.
+Sign back in as the first user, run cross-user checks against the second user's
+selected fixture, save the report, then switch pending fixture and verify the
+first user's original record and cleanup. Independently inspect the second
+user's row for unchanged owner/marker before cleanup. Administrative cleanup,
+if used, must be recorded separately from user-session authorization evidence.
+The metadata-clear button removes browser metadata only, never database rows.
+No invitations, password changes, or paid upgrades were performed.
 
 The synthetic row's owner label is NOT a login. Native sign-in uses the hosted
 Zite flow; do not fabricate sessions or treat mocked identities as live proof.

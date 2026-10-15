@@ -1,0 +1,13 @@
+{
+  "stage": "Reverse fixture ready. Original account can now test this record.",
+  "fixture": {
+    "id": "b226c093a31342f",
+    "owner": "NDwafL1r0jnK6MMq1ePtQLZGmpnBhC4O",
+    "auditMarker": "simplyscan_b226c093a31342f5b860063325dfa7fc"
+  },
+  "alternate": {
+    "id": "c2eed10dcf654df",
+    "owner": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+    "auditMarker": "simplyscan_c2eed10dcf654df5936803fcfe1546f8"
+  }
+}

@@ -5,14 +5,15 @@ import { publicCanary, whoami, createOwned, readOwned, updateOwned, deleteOwned 
 type Fixture = { id: string; owner: string; auditMarker: string };
 type Check = { name: string; passed: boolean; detail?: string };
 const fixtureKey = 'simplyscan-zite-cross-fixture-v1';
+const alternateKey = 'simplyscan-zite-alternate-fixture-v1';
 const reportKey = 'simplyscan-zite-report-v1';
 const fresh = (owner: string): Fixture => {
  const hex = crypto.randomUUID().replaceAll('-', '');
  return { id: hex.slice(0,15), owner, auditMarker: 'simplyscan_' + hex };
 };
-function savedFixture(): Fixture | null {
+function savedFixture(key = fixtureKey): Fixture | null {
  try {
-  const f = JSON.parse(localStorage.getItem(fixtureKey) || 'null');
+  const f = JSON.parse(localStorage.getItem(key) || 'null');
   return f && /^[a-f0-9]{15}$/.test(f.id) && /^simplyscan_[a-f0-9]{32}$/.test(f.auditMarker) && typeof f.owner === 'string' ? f : null;
  } catch { return null; }
 }
@@ -73,6 +74,27 @@ export default function App() {
   if(row?.owner!==f.owner || row?.auditMarker!==f.auditMarker) throw new Error('Prepared fixture could not be verified');
   output({stage:'Cross-user fixture ready. Sign in with a different test account, then run cross-user checks.',fixture:f});
  }
+ async function prepareReverse() {
+  const previous=savedFixture();
+  if(!previous) throw new Error('Prepare the first fixture before reversing roles.');
+  if(savedFixture(alternateKey)) throw new Error('Both direction fixtures already exist.');
+  const identity=await whoami({});
+  if(identity.id===previous.owner) throw new Error('A distinct second account must prepare the reverse fixture.');
+  const f=fresh(identity.id);
+  await createOwned({id:f.id,data:{owner:f.owner,auditMarker:f.auditMarker}});
+  localStorage.setItem(alternateKey,JSON.stringify(previous));
+  localStorage.setItem(fixtureKey,JSON.stringify(f)); setFixture(f);
+  const row=(await readOwned({id:f.id})).record;
+  if(row?.owner!==f.owner || row?.auditMarker!==f.auditMarker) throw new Error('Reverse fixture could not be verified');
+  output({stage:'Reverse fixture ready. Original account can now test this record.',fixture:f,alternate:previous});
+ }
+ function switchFixture() {
+  const next=savedFixture(alternateKey), current=savedFixture();
+  if(!next) throw new Error('No alternate fixture saved.');
+  if(current) localStorage.setItem(alternateKey,JSON.stringify(current)); else localStorage.removeItem(alternateKey);
+  localStorage.setItem(fixtureKey,JSON.stringify(next)); setFixture(next);
+  output({stage:'Selected pending fixture',fixture:next});
+ }
  async function crossChecks() {
   const f=savedFixture();
   if(!f) throw new Error('Prepare a cross-user fixture first.');
@@ -101,7 +123,11 @@ export default function App() {
   if(!unchanged) throw new Error('Original fixture changed or disappeared; retain evidence for investigation.');
   await deleteOwned({id:f.id});
   const empty=(await readOwned({id:f.id})).record===null;
-  if(empty) { localStorage.removeItem(fixtureKey); setFixture(null); }
+  if(empty) {
+   const alternate=savedFixture(alternateKey);
+   if(alternate) localStorage.setItem(fixtureKey,JSON.stringify(alternate)); else localStorage.removeItem(fixtureKey);
+   localStorage.removeItem(alternateKey); setFixture(alternate);
+  }
   output({suite:'cross-user owner verification and cleanup',at:new Date().toISOString(),fixtureId:f.id,unchanged,cleanupVerified:empty});
  }
  return <main className="p-8 max-w-3xl mx-auto space-y-4">
@@ -115,12 +141,15 @@ export default function App() {
     <button disabled={busy} onClick={()=>task(async()=>output({identity:(await whoami({})).id}))}>Check my identity</button>
     <button className="border p-2" disabled={busy} onClick={()=>task(ownChecks)}>Run signed-in ownership checks</button>
     <button className="border p-2" disabled={busy||!!fixture} onClick={()=>task(prepare)}>Prepare cross-user fixture</button>
+    <button className="border p-2" disabled={busy||!fixture} onClick={()=>task(prepareReverse)}>Prepare reverse-direction fixture</button>
+    <button className="border p-2" disabled={busy||!savedFixture(alternateKey)} onClick={()=>task(async()=>switchFixture())}>Switch pending fixture</button>
     <button className="border p-2" disabled={busy||!fixture} onClick={()=>task(crossChecks)}>Run cross-user checks</button>
     <button className="border p-2" disabled={busy||!fixture} onClick={()=>task(finish)}>Verify original owner and clean up</button>
    </div>
   </>:<button onClick={()=>loginWithRedirect()}>Sign in as a test user</button>}
   <button className="block border p-2" disabled={busy} onClick={()=>task(async()=>output(await publicCanary({})))}>Read synthetic public canary</button>
   {fixture && <p>Pending cross-user fixture: {fixture.id}. Return to its original owner to verify and clean up.</p>}
+  <button disabled={busy||!fixture} onClick={()=>{localStorage.removeItem(fixtureKey);localStorage.removeItem(alternateKey);setFixture(null);output('Saved fixture metadata cleared. This does not delete database records; independently verify cleanup first.');}}>Clear saved fixture metadata after verified cleanup</button>
   {busy && <p role="status">Running native requests…</p>}
   <pre aria-label="Test results" className="whitespace-pre-wrap break-words text-sm">{result}</pre>
  </main>;
