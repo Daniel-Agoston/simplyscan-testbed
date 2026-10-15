@@ -55,17 +55,27 @@ database inspection confirmed the first user's record was unchanged and no
 unexpected rows were created. See the `second-user`, `cross-b-to-a`, and
 `cross-b-to-a-integrity` evidence JSON files.
 
-## Remaining reverse-direction work
+## Completed reverse-direction checks and cleanup
 
-The second user has prepared a reverse-direction fixture through its native
-session. Both fixture metadata sets are retained in the same browser profile.
-Sign back in as the first user, run cross-user checks against the second user's
-selected fixture, save the report, then switch pending fixture and verify the
-first user's original record and cleanup. Independently inspect the second
-user's row for unchanged owner/marker before cleanup. Administrative cleanup,
-if used, must be recorded separately from user-session authorization evidence.
-The metadata-clear button removes browser metadata only, never database rows.
-No invitations, password changes, or paid upgrades were performed.
+The first user signed back in and passed **7/7** reverse-isolation checks against
+the second user's real record. Both records retained their exact original owner
+and marker under independent native database inspection. The first owner also
+verified its unchanged record, deleted it through the real native session, and
+confirmed an empty read. The second cross-user fixture was then deleted through
+the administrative MCP data tool after its integrity was verified; that cleanup
+is not counted as an authorization test. Each user's own-session delete was
+already verified in its ten-check control suite.
+
+**45 fixture checks passed:** 11 anonymous/invalid-token, 10 own-access checks
+per real user, and 7 cross-user checks in each direction. The anonymous suite
+also passed again on final snapshot `5258612`. This is a fixture-specific
+native SDK/browser test, not the generic scanner's 18-check HTTP matrix.
+Final native database inspection found only the permanent synthetic public
+canary; no disposable rows remained. Browser fixture metadata was cleared.
+The `cross-a-to-b`, `cross-final-integrity`, `owner-final-cleanup`,
+`final-cleanup`, and `final-execution-logs` evidence files record this closeout.
+Native latest/published snapshots match. No invitations, password changes,
+policy changes, or paid upgrades were performed.
 
 The synthetic row's owner label is NOT a login. Native sign-in uses the hosted
 Zite flow; do not fabricate sessions or treat mocked identities as live proof.

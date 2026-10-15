@@ -1,0 +1,48 @@
+{
+  "suite": "native cross-user isolation",
+  "at": "2026-10-15T23:35:52.231Z",
+  "identity": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+  "owner": "NDwafL1r0jnK6MMq1ePtQLZGmpnBhC4O",
+  "fixtureIds": [
+    "b226c093a31342f",
+    "a389278680e6427"
+  ],
+  "passed": 7,
+  "total": 7,
+  "checks": [
+    {
+      "name": "distinct native identities",
+      "passed": true
+    },
+    {
+      "name": "foreign row unreadable",
+      "passed": true
+    },
+    {
+      "name": "foreign update with original owner rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Ownership is immutable\"}"
+    },
+    {
+      "name": "foreign update with current owner rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Not your fixture\"}"
+    },
+    {
+      "name": "foreign delete rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Not a disposable owned fixture\"}"
+    },
+    {
+      "name": "foreign fixture overwrite rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Fixture exists\"}"
+    },
+    {
+      "name": "create for real other owner rejected",
+      "passed": true,
+      "detail": "Error: API call failed (403): {\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Owner mismatch\"}"
+    }
+  ],
+  "next": "Original owner must verify unchanged and clean up."
+}
