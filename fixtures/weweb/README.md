@@ -17,11 +17,20 @@ session cookies rather than the generic adapter's bearer header. The fixture
 now uses distinct POST routes with named body parameters. Its existing owner
 guards, immutable ownership and bounded disposable IDs/markers are preserved.
 
-`run-matrix.mts` supplies native cookie transport to the scanner repository's
+The original `run-matrix.mts` supplied native cookie transport to the scanner repository's
 existing `auditPermissions` matrix. It verifies exact account identities before
 writes, restricts requests to this testbed, rejects redirects, bounds responses,
 and reserves a new report file before writes. Authentication cookies come only
 from fresh HTTP logins using the dedicated credentials, never from the browser.
+
+The 2026-10-16 follow-up moves `verify-live.mjs` onto the scanner's reusable
+HTTP CLI, configured with explicit Cookie credentials and POST operations.
+Fresh native logins and all **18/18 live checks passed again**, with cleanup
+verified and zero leftover IDs. See `evidence/2026-10-16-generic-cli-report.json`.
+The old adapter remains for historical reproducibility; the runner no longer
+requires its fixture-specific transport. The scanner checkout must include the
+Cookie-session HTTP adapter changes. This live fixture evidence is separate
+from production scanner deployment verification.
 
 Run with the existing private credential files in
 `~/simplyscan-testbed-weweb/{admin,owner,other}.json`:

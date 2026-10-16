@@ -1,0 +1,145 @@
+{
+  "format": "simplyscan-connected-audit",
+  "version": 1,
+  "siteUrl": "https://laminated-raster-production.weweb.io",
+  "generatedAt": "2026-10-15T23:50:50.316Z",
+  "provenance": "owner-run-unverified",
+  "coverage": "Configured resources, identities and operations only; not a proof of complete policy correctness.",
+  "complete": true,
+  "targets": [
+    {
+      "name": "native_weweb_owned_fixtures",
+      "provider": "http",
+      "resource": "simplyscan_audit_owned",
+      "checks": [
+        {
+          "actor": "anonymous",
+          "action": "read",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "anonymous",
+          "action": "create",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "anonymous",
+          "action": "update",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "anonymous",
+          "action": "delete",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "owner",
+          "action": "read",
+          "expectedAllowed": true,
+          "observedAllowed": true,
+          "outcome": "passed"
+        },
+        {
+          "actor": "owner",
+          "action": "create",
+          "expectedAllowed": true,
+          "observedAllowed": true,
+          "outcome": "passed"
+        },
+        {
+          "actor": "owner",
+          "action": "update",
+          "expectedAllowed": true,
+          "observedAllowed": true,
+          "outcome": "passed"
+        },
+        {
+          "actor": "owner",
+          "action": "delete",
+          "expectedAllowed": true,
+          "observedAllowed": true,
+          "outcome": "passed"
+        },
+        {
+          "actor": "other",
+          "action": "read",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "other",
+          "action": "create",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "other",
+          "action": "update",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "actor": "other",
+          "action": "delete",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        }
+      ],
+      "isolation": [
+        {
+          "test": "other-own-read",
+          "expectedAllowed": true,
+          "observedAllowed": true,
+          "outcome": "passed"
+        },
+        {
+          "test": "reverse-read",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "test": "reverse-update",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "test": "reverse-delete",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "test": "owner-transfer",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        },
+        {
+          "test": "other-transfer",
+          "expectedAllowed": false,
+          "observedAllowed": false,
+          "outcome": "passed"
+        }
+      ],
+      "policy": {
+        "status": "unavailable"
+      },
+      "cleanup": "verified",
+      "leftoverIds": []
+    }
+  ]
+}

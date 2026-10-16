@@ -1,8 +1,7 @@
 // Owner-operated native HTTP audit. Credentials are read from private files,
 // used only at the configured WeWeb origin, and never written to the report.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { resolve, join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve, join } from 'node:path';
 import { homedir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { users, projectId, table } from './build-workflows.mjs';
@@ -26,7 +25,7 @@ const target = {
   name: 'native_weweb_owned_fixtures', provider: 'http', endpoint: base, resource: table,
   ownerId: users.owner, otherId: users.other, ownershipTests: true,
   ownerField: 'owner', canaryField: 'auditMarker',
-  credentials: Object.fromEntries(['admin', 'owner', 'other'].map(role => [role, { env: `WEWEB_${role.toUpperCase()}_TOKEN` }])),
+  credentials: Object.fromEntries(['admin', 'owner', 'other'].map(role => [role, { env: `WEWEB_${role.toUpperCase()}_TOKEN`, header: 'Cookie', bearer: false }])),
   expected: { anonymous: denied, owner: { read: true, create: true, update: true, delete: true }, other: denied },
   http: {
     platform: 'WeWeb', identity: { path: '/api/simplyscan-audit/whoami', resultPath: ['id'] },
@@ -75,7 +74,7 @@ for (const role of ['admin', 'owner', 'other']) {
   console.log(JSON.stringify({ role, identityStatus: result.identityStatus, identityVerified: result.identityVerified, responseKeys: identity ? Object.keys(identity) : [] }));
   if (identityResponse.status !== 200 || identity?.id !== users[role]) throw new Error('Native identity endpoint failed; stopped before fixture writes');
 }
-const child = spawnSync(process.execPath, ['--import', 'tsx', join(dirname(fileURLToPath(import.meta.url)), 'run-matrix.mts'), configFile, scanner, join(output, 'report.json')], {
+const child = spawnSync(process.execPath, ['--import', 'tsx', join(scanner, 'scripts/backend-audit/cli.ts'), configFile, '--allow-disposable-writes', '--output', join(output, 'report.json')], {
   cwd: join(scanner, 'scripts/backend-audit'), env, stdio: 'inherit',
 });
 process.exitCode = child.status ?? 2;
