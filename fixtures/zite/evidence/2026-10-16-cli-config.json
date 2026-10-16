@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "siteUrl": "https://wrrcxw37xc.zite.so",
+  "authorizedTestEnvironment": true,
+  "targets": [
+    {
+      "name": "native_zite_owned_fixtures",
+      "provider": "http",
+      "endpoint": "https://wrrcxw37xc.zite.so",
+      "resource": "simplyscan_audit_owned",
+      "ownerId": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+      "otherId": "NDwafL1r0jnK6MMq1ePtQLZGmpnBhC4O",
+      "ownershipTests": true,
+      "ownerField": "owner",
+      "canaryField": "auditMarker",
+      "credentials": {
+        "admin": {
+          "env": "ZITE_ADMIN_COOKIE",
+          "header": "Cookie",
+          "bearer": false
+        },
+        "owner": {
+          "env": "ZITE_OWNER_COOKIE",
+          "header": "Cookie",
+          "bearer": false
+        },
+        "other": {
+          "env": "ZITE_OTHER_COOKIE",
+          "header": "Cookie",
+          "bearer": false
+        }
+      },
+      "expected": {
+        "anonymous": {
+          "read": false,
+          "create": false,
+          "update": false,
+          "delete": false
+        },
+        "owner": {
+          "read": true,
+          "create": true,
+          "update": true,
+          "delete": true
+        },
+        "other": {
+          "read": false,
+          "create": false,
+          "update": false,
+          "delete": false
+        }
+      },
+      "http": {
+        "platform": "Zite",
+        "envelope": "zite-live",
+        "identity": {
+          "method": "POST",
+          "path": "/api/whoami",
+          "resultPath": [
+            "id"
+          ]
+        },
+        "operations": {
+          "read": {
+            "method": "POST",
+            "path": "/api/readOwned",
+            "body": {
+              "id": "$id"
+            },
+            "resultPath": [
+              "record"
+            ],
+            "nullMeansMissing": true
+          },
+          "create": {
+            "method": "POST",
+            "path": "/api/createOwned",
+            "body": {
+              "id": "$id",
+              "data": "$data"
+            }
+          },
+          "update": {
+            "method": "POST",
+            "path": "/api/updateOwned",
+            "body": {
+              "id": "$id",
+              "data": "$data"
+            }
+          },
+          "delete": {
+            "method": "POST",
+            "path": "/api/deleteOwned",
+            "body": {
+              "id": "$id"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

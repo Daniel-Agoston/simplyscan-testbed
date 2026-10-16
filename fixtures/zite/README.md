@@ -3,8 +3,8 @@
 Live app: https://wrrcxw37xc.zite.so
 Editor: https://app.zite.com/workspace/c9765f75d3786c79/wrrcxw37xc/edit
 Workspace/database: `c9765f75d3786c79`; app: `wrrcxw37xc`.
-Published native commit: `1608d2b989c9a8c333a2cdb515eb18747b839ab7`;
-snapshot `5258612`. This directory mirrors the app's hand-authored files,
+Published native commit: `e56646437e0683dbe9d9365c8f70e39985a23083`;
+snapshot `5264507`. This directory mirrors the app's hand-authored files,
 not Zite's generated SDK or any credentials.
 
 ## Plants and controls
@@ -15,7 +15,14 @@ not Zite's generated SDK or any credentials.
 - `whoami`: native authenticated identity control.
 - `readOwned`, `createOwned`, `updateOwned`, `deleteOwned`: native authenticated
   workflows using `context.user.id`, owner-filtered reads, immutable ownership,
-  bounded disposable IDs and markers. No admin bypass or public write route.
+  bounded disposable IDs and markers. All remain native-authenticated.
+- A third native identity, pinned in `src/fixturePolicy.ts`, has fixture-only
+  seed/read/delete access. It can seed records only for the two established test
+  owners. Admin reads/deletes require a 15-hex fixture ID, bounded audit marker,
+  exact synthetic email and one of those owners. Admin updates are denied.
+  Normal users retain owner-filtered reads/deletes and immutable ownership.
+- Endpoint execution explicitly parses strict input schemas before database
+  access. Zite's declared `inputSchema` alone did not enforce runtime validation.
 - Browser UI offers native sign-in, signed-in CRUD checks, and staged cross-user
   checks. Calls use the generated SDK and the real hosted session. It saves only
   nonsecret fixture metadata and the latest report in localStorage.
@@ -82,9 +89,49 @@ Zite flow; do not fabricate sessions or treat mocked identities as live proof.
 
 The generic SimplyScan HTTP audit example is not this app's wire contract.
 Zite's SDK uses POST `/api/<endpoint>` with `{inputs,mode:"live"}` and native
-session handling; the current generic adapter requires an identity GET and
-three authenticated identities, including an admin. A native adapter or an
-explicit compatible owner-reviewed contract is still needed for its full matrix.
+session handling. The scanner's 2026-10-16 follow-up now supports explicit POST
+identity checks, the `zite-live` envelope, and owner-supplied Cookie sessions in
+its reusable HTTP adapter. `scripts/backend-audit/zite-example.json` documents
+the editable contract. Local protected/leaky protocol fixtures pass; the live
+WeWeb deployment also passed the generic Cookie adapter's 18 checks.
+
+## Completed three-role CLI audit
+
+On 2026-10-16, a third genuine hosted identity was created for fixture
+administration, separate from both normal users. The reusable scanner CLI passed
+**18/18 checks** (12 CRUD + six ownership/isolation), with `complete: true`,
+`cleanup: verified`, and no leftover IDs. The final run used snapshot `5264507`.
+Three exact native identities were verified before any CLI fixture writes.
+
+Additional live scope tests passed **20/20**: the admin could not read/delete/
+update/overwrite three synthetic sentinels with a wrong owner, marker, or email;
+could not create for itself or unrelated owners; could not inject extra fields;
+and could not access the permanent canary through owned-record routes. Its
+valid seed/read/delete controls passed and updates stayed denied. Four local
+policy tests passed. An initial scope probe exposed missing runtime schema
+validation; the failed report is retained and was superseded by explicit parsing
+and the successful final reruns. No malformed fixture was left behind.
+
+Independent database inspection verified all three sentinels unchanged before
+administrative removal. Final inspection found only the permanent public canary.
+Temporary session files were stored privately, used only at this app origin,
+and deleted after verification; no credentials are in the reports or repository.
+Tailwind, braces, dependencies, and the shared scanner worktree were not modified.
+
+Evidence: `evidence/2026-10-16-cli-{report,identities,config,final-cleanup}.json`
+and `evidence/2026-10-16-admin-scope-{final,integrity}.json`.
+To rerun, supply private (0600) `admin.json`, `owner.json`, and `other.json`
+in a private (0700) directory, each with `origin`, native `id`, and `cookie`.
+Use real active sessions scoped to this app; server logout can revoke them.
+```sh
+node fixtures/zite/verify-live.mjs PRIVATE_SESSION_DIRECTORY SCANNER_REPO NEW_OUTPUT_DIRECTORY
+node --test fixtures/zite/fixture-policy.test.mjs
+```
+The runner invokes the scanner's existing `scripts/backend-audit/cli.ts`;
+it does not replace the matrix or fabricate native identities. Scope probes
+use `verify-admin-scope.mjs` with three independently seeded sentinel rows;
+inspect them independently and remove them administratively after testing.
+Results cover this fixture contract, not all native Zite resources or roles.
 
 The app-builder tools started a seven-day free trial ending 2026-10-22. No paid
 upgrade was purchased. See Zite's account for ongoing availability.

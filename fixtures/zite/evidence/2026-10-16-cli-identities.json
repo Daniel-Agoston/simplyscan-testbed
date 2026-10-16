@@ -1,0 +1,23 @@
+{
+  "origin": "https://wrrcxw37xc.zite.so",
+  "verified": [
+    {
+      "role": "admin",
+      "status": 200,
+      "identity": "xeA2IcDyvmeuGQbrnNBdVu864GAQxNeU",
+      "verified": true
+    },
+    {
+      "role": "owner",
+      "status": 200,
+      "identity": "J6EdYWfngdpcEUdNm1NrO6UXSRsFYiPR",
+      "verified": true
+    },
+    {
+      "role": "other",
+      "status": 200,
+      "identity": "NDwafL1r0jnK6MMq1ePtQLZGmpnBhC4O",
+      "verified": true
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "origin": "https://wrrcxw37xc.zite.so",
+  "adminId": "xeA2IcDyvmeuGQbrnNBdVu864GAQxNeU",
+  "at": "2026-10-16T08:23:29.497Z",
+  "passed": 14,
+  "total": 17,
+  "cleanupVerified": false,
+  "positiveControlId": "0c79418492761b1",
+  "sentinels": [
+    {
+      "name": "wrong-marker",
+      "fixtureId": "edd395e9771f616",
+      "nativeId": "4aac9520-8b19-4c96-9478-c6cffbb21508"
+    },
+    {
+      "name": "wrong-owner",
+      "fixtureId": "f9d1738650ee979",
+      "nativeId": "e5c0ec02-f735-4df3-afc9-a08bc6f75d8d"
+    },
+    {
+      "name": "wrong-email",
+      "fixtureId": "44bbf1f60079683",
+      "nativeId": "b2054ec1-367f-488f-aa4a-37b4bd992b3c"
+    }
+  ],
+  "checks": [
+    {
+      "name": "wrong-marker: admin read denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-marker: admin delete denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-marker: admin update denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-marker: admin create denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-owner: admin read denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-owner: admin delete denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-owner: admin update denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-owner: admin create denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-email: admin read denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-email: admin delete denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-email: admin update denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "wrong-email: admin create denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "admin cannot create for itself",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "admin cannot create for unrelated owner",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "admin cannot inject extra record fields",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "permanent canary outside read contract",
+      "passed": false,
+      "status": 403
+    },
+    {
+      "name": "permanent canary outside delete contract",
+      "passed": false,
+      "status": 403
+    }
+  ]
+}
