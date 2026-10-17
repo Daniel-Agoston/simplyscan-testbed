@@ -71,3 +71,8 @@ Supabase project and are not part of this static testbed.
 - `/batch10/planted.html`: never-called static function, no submitted payloads. Expected source IDs: adjacent-html, iframe-srcdoc, angular-html-trust, sanitizer-discarded, dom-html, storage-html, window-name-html, message-html. Expected response gaps: csp-inline, csp-eval, csp-broad-source, csp-data-script, csp-object, csp-base, trusted-types. A missing source map or other independent page findings are not an XSS proof.
 - `/batch10/clean.html`: textContent near-miss with a restrictive meta CSP. Expected zero XSS findings. Meta CSP is not claimed to enforce unsupported directives such as frame-ancestors.
 - These fixtures contain no credentials, executable attack invocation, forms or database mutations.
+
+Batch 10 source parity fixture: `src/batch10/xss-fixtures.tsx` is never loaded by
+HTML. URL, repository and local-code detectors are passive; the source fixture
+plants adjacent-html, iframe-srcdoc, angular-resource-trust, sanitizer-discarded,
+window-name-html, react-html and lit-unsafe-html. The clean function uses textContent.
