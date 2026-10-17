@@ -66,3 +66,8 @@ Score a SimplyScan scan of https://daniel-agoston.github.io/simplyscan-testbed/ 
 Open Supabase tables (supabase_missing_rls, supabase_public_tables, supabase_weak_rls),
 public storage buckets, unprotected endpoints, CORS, rate limiting: these need a live
 Supabase project and are not part of this static testbed.
+
+## Batch 10 XSS controls
+- `/batch10/planted.html`: never-called static function, no submitted payloads. Expected source IDs: adjacent-html, iframe-srcdoc, angular-html-trust, sanitizer-discarded, dom-html, storage-html, window-name-html, message-html. Expected response gaps: csp-inline, csp-eval, csp-broad-source, csp-data-script, csp-object, csp-base, trusted-types. A missing source map or other independent page findings are not an XSS proof.
+- `/batch10/clean.html`: textContent near-miss with a restrictive meta CSP. Expected zero XSS findings. Meta CSP is not claimed to enforce unsupported directives such as frame-ancestors.
+- These fixtures contain no credentials, executable attack invocation, forms or database mutations.

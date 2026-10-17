@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>SimplyScan Batch 10 static XSS plants</title>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; object-src *; base-uri *">
+</head><body><h1>Static detection fixture</h1><p>The function below is intentionally never called. It contains static source examples only.</p>
+<script>
+function simplyscanStaticPlants(node, frame, sanitizer, event) {
+  node.insertAdjacentHTML('beforeend', location.hash);
+  frame.srcdoc = location.hash;
+  sanitizer.bypassSecurityTrustHtml(location.hash);
+  DOMPurify.sanitize(location.hash);
+  node.innerHTML = localStorage.getItem('draft');
+  node.innerHTML = window.name;
+  window.addEventListener('message', event => { node.innerHTML = event.data; });
+}
+</script></body></html>
